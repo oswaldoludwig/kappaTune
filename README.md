@@ -14,7 +14,7 @@ A PyTorch-based optimizer wrapper for continual learning via selective fine-tuni
 - [Usage](#usage)
 
 ## Introduction
-`kappaTune` is designed to address the challenge of catastrophic forgetting in continual learning scenarios. By analyzing the condition numbers of a neural network's weight matrices, it selects a subset of parameters to fine-tune. This approach updates only tensors with the smallest condition numbers due to a synergy of factors: they inherent numerical stability makes them less susceptible to training noise, and their less specialized nature allows for robust adaptation without overwriting critical, highly specific pre-training knowledge, thereby effectively mitigating catastrophic forgetting of foundational capabilities, as shown in the [paper](https://arxiv.org/html/2506.16289v1).
+`kappaTune` is designed to address the challenge of catastrophic forgetting in continual learning scenarios. By analyzing the condition numbers of a neural network's weight matrices, it selects a subset of parameters to fine-tune. This approach updates only tensors with the smallest condition numbers due to a synergy of factors: their inherent numerical stability makes them less susceptible to training noise, and their less specialized nature allows for robust adaptation without overwriting critical, highly specific pre-training knowledge, thereby effectively mitigating catastrophic forgetting of foundational capabilities, as shown in the [paper](https://arxiv.org/html/2506.16289v1).
 
 ## Features
 * **Condition Number Guided Selection:** Ranks model parameters based on their condition numbers, prioritizing those that are less anisotropic (more "round" in their singular value distribution).
