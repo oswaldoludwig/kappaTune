@@ -23,6 +23,9 @@ A PyTorch-based optimizer wrapper for continual learning via selective fine-tuni
 * **Flexible Filtering:** Allows skipping parameters based on number of dimensions, or maximum dimension size, providing fine-grained control over which tensors are considered for analysis.
 * **Catastrophic Forgetting Mitigation:** By selectively updating parameters, `kappaTune` helps preserve pre-trained knowledge, making it suitable for continual learning and domain adaptation tasks.
 
+## kappaTune vs. LoRA
+While LoRA is highly effective for reducing training costs through parameter-efficient fine-tuning, it doesn’t inherently include a strategy to prevent catastrophic forgetting. In contrast, kappaTune is purpose-built for continual learning; it offers better retention of prior knowledge and also reduces computational effort as a side effect by selectively updating only a small subset of model tensors.
+
 ## Installation
 
 ### Prerequisites
