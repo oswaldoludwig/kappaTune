@@ -1,0 +1,13 @@
+[project]
+name = "kappatune"
+version = "0.1.0"
+description = "KappaTune: selective fine-tuning via condition number to mitigate catastrophic forgetting"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["torch", "transformers", "peft>=0.12.0", "datasets", "numpy"]
+license = {text = "Apache-2.0"}
+
+[project.urls]
+Homepage = "https://github.com/oswaldoludwig/kappaTune"
+Repository = "https://github.com/oswaldoludwig/kappaTune"
+Paper = "https://arxiv.org/abs/2506.16289"
