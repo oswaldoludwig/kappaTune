@@ -2,7 +2,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
 from datasets import load_dataset
 from peft import TaskType
-from kappatune.hf_integration import get_kappatune_lora_model
+from kappaTune.hf_integration import get_kappatune_lora_model
 
 model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 model = AutoModelForCausalLM.from_pretrained(model_name)
