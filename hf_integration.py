@@ -2,7 +2,7 @@
 from typing import Dict, List, Optional
 import torch.nn as nn
 from peft import LoraConfig, TaskType, get_peft_model
-from .selective_fine_tuning import SelectiveFineTuningOptimizer  # reuse your core!
+from .selective_fine_tuning import SelectiveFineTuningOptimizer  # reuse our core!
 
 def get_kappa_lora_config(
     model: nn.Module,
