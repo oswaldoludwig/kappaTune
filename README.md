@@ -10,11 +10,15 @@ https://arxiv.org/html/2506.16289v3
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
+- [Hugging Face PEFT Integration](#new-hugging-face-peft-integration)
 - [Installation](#installation)
 - [Usage](#usage)
 
 ## Introduction
-`kappaTune` is designed to address the challenge of catastrophic forgetting in continual learning scenarios. By analyzing the condition numbers of a neural network's weight matrices, it selects a subset of parameters to fine-tune. This approach updates only tensors with the smallest condition numbers due to a synergy of factors: their inherent numerical stability makes them less susceptible to training noise, and their less specialized nature allows for robust adaptation without overwriting critical, highly specific pre-training knowledge, thereby effectively mitigating catastrophic forgetting of foundational capabilities, as shown in the [paper](https://arxiv.org/html/2506.16289v3).
+`kappaTune` is designed to address the challenge of catastrophic forgetting in continual learning scenarios. By analyzing the condition numbers of a neural network's weight matrices, it selects a subset of parameters to fine-tune. This approach updates only tensors with the smallest condition numbers due to a synergy of 3 factors:
+* **Numerical Stability:** Their inherent stability makes them less susceptible to training noise.
+* **Learning Potential:** Their higher differential entropy output provides more capacity to learn new information (acting like a raw marble block ready to be sculpted).
+* **Knowledge Preservation:** Their less specialized nature allows for robust adaptation without overwriting the highly specific, anisotropic weights that store foundational pre-training knowledge, as shown in the [paper](https://arxiv.org/html/2506.16289v3).
 
 ## Features
 * **Condition Number Guided Selection:** Ranks model parameters based on their condition numbers, prioritizing those that are less anisotropic (more "round" in their singular value distribution).
@@ -25,6 +29,27 @@ https://arxiv.org/html/2506.16289v3
 
 ## kappaTune vs. LoRA
 While LoRA is highly effective for reducing training costs through parameter-efficient fine-tuning, it doesn’t inherently include a strategy to prevent catastrophic forgetting. In contrast, kappaTune is purpose-built for continual learning; it offers better retention of prior knowledge and also reduces computational effort as a side effect by selectively updating only a small subset of model tensors.
+
+## NEW: Hugging Face PEFT Integration
+You can now use KappaTune's selection logic directly with the Hugging Face ecosystem. This allows you to apply LoRA adapters only to the proper modules, effectively mitigating catastrophic forgetting with a single line of code.
+
+## Usage with LoRA
+Instead of manually guessing which layers to target (e.g., q_proj, v_proj), let KappaTune find the best $N$ modules based on their condition number:
+
+```python
+from transformers import AutoModelForCausalLM
+from kappaTune import get_kappatune_lora_model
+
+# Load your model
+model = AutoModelForCausalLM.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+
+# Apply KappaTune-LoRA (New automated selection)
+model = get_kappatune_lora_model(
+    model, 
+    num_modules_to_adapt=20, # Targets the 20 most stable layers
+    lora_rank=16
+)
+```
 
 ## Installation
 
@@ -40,4 +65,5 @@ pip install torch transformers datasets numpy
 ```
 
 ## Usage
-**complete_example_use_selective_fine_tuning.py** demonstrates how to use kappaTune to fine-tune a TinyLlama-1.1B model on a text classification dataset (ag_news), selectively updating parameters based on their condition numbers. Note that while ag_news is a classification dataset, the example code performs a language modeling (next-token prediction) task only to illustrate the LLM adaptation.
+For KappaTune-LoRA using Hugging Face PEFT, see **kappa_lora_tinyllama.py**.
+For the original KappaTune fine tuning in Pytorch (without LoRA), see **complete_example_use_selective_fine_tuning.py**, which demonstrates how to use kappaTune to fine-tune a TinyLlama-1.1B model on a text classification dataset (ag_news), selectively updating parameters based on their condition numbers. Note that while ag_news is a classification dataset, the example code performs a language modeling (next-token prediction) task only to illustrate the LLM adaptation.
