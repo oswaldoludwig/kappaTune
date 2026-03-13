@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 import torch.nn as nn
 from peft import LoraConfig, TaskType, get_peft_model
 from kappaTune.selective_fine_tuning import SelectiveFineTuningOptimizer
+import torch
 
 def get_kappa_lora_config(
     model: nn.Module,
